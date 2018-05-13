@@ -5,8 +5,13 @@ import * as actions from './actions'
 
 const toggleTimerLogic = createLogic({
   type: actionTypes.TOGGLE_TIMER,
-  cancelType: actionTypes.RESET_TIMER,
-  process: ({action, cancelled$}, dispatch, done) => {
+  cancelType: [actionTypes.RESET_TIMER, actionTypes.PAUSE_TIMER],
+  process: ({getState, action, cancelled$}, dispatch, done) => {
+    const timer = getState().timers[action.timer.id]
+    if (timer.running === false) {
+      dispatch(actions.pauseTimer(timer))
+      done()
+    }
     const timeoutId = setInterval(() => {
       dispatch(actions.decrementTimerDurationRemaining(action.timer))
     }, 1000)
@@ -20,7 +25,7 @@ const toggleTimerLogic = createLogic({
 const decrementTimerDurationRemainingLogic = createLogic({
   type: actionTypes.DECREMENT_TIMER_DURATION_REMAINING,
   process: ({getState, action}, dispatch, done) => {
-    if (getState().timers[action.timer.id].durationRemaining === 0) {
+    if (getState().timers[action.timer.id].durationRemaining <= 0) {
       dispatch(actions.resetTimer(action.timer))
     }
     done()

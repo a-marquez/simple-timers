@@ -4,14 +4,18 @@ export const actionTypes = new Enum(
   'CREATE_TIMER',
   'TOGGLE_TIMER',
   'RESET_TIMER',
-  'DECREMENT_TIMER_DURATION_REMAINING'
+  'PAUSE_TIMER',
+  'NAME_TIMER',
+  'DUPLICATE_TIMER',
+  'DECREMENT_TIMER_DURATION_REMAINING',
+  'INCREMENT_TIMER_DURATION_REMAINING'
 )
 
-export const createTimer = (id, label, duration) => ({
+export const createTimer = (id, name, duration) => ({
   type: actionTypes.CREATE_TIMER,
   timer: {
     id,
-    label,
+    name,
     duration,
     durationRemaining: duration,
     running: false
@@ -28,7 +32,28 @@ export const resetTimer = timer => ({
   timer
 })
 
+export const pauseTimer = timer => ({
+  type: actionTypes.PAUSE_TIMER,
+  timer
+})
+
+export const nameTimer = (timer, name) => ({
+  type: actionTypes.NAME_TIMER,
+  timer,
+  name
+})
+
+export const duplicateTimer = timer => ({
+  type: actionTypes.DUPLICATE_TIMER,
+  timer
+})
+
 export const decrementTimerDurationRemaining = timer => ({
   type: actionTypes.DECREMENT_TIMER_DURATION_REMAINING,
+  timer
+})
+
+export const incrementTimerDurationRemaining = timer => ({
+  type: actionTypes.INCREMENT_TIMER_DURATION_REMAINING,
   timer
 })
