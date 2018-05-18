@@ -9,19 +9,40 @@
   },
   "scripts": {
     "postinstall": "cd ./node_modules/redux-logic; npm install; npm run build;",
-    "start": "parcel src/index.html",
+    "start": "concurrently 'parcel src/index.html' 'postcss src/css/main.sss -o src/css/main.css -w'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "postcss": {
+    "parser": "sugarss",
+    "plugins": {
+      "precss": {},
+      "postcss-preset-env": {"stage": 3},
+      "autoprefixer": {}
+    }
+  },
+  "browserslist": [
+    "last 2 Chrome versions"
+  ],
   "author": "Albert Marquez (https://github.com/a-marquez)",
   "license": "ISC",
   "devDependencies": {
+    "autoprefixer": "^8.5.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "parcel-bundler": "^1.8.1"
+    "concurrently": "^3.5.1",
+    "parcel-bundler": "^1.8.1",
+    "postcss": "^6.0.22",
+    "postcss-cli": "^5.0.0",
+    "postcss-preset-env": "^5.0.0",
+    "precss": "^3.1.2",
+    "sugarss": "^1.0.1"
   },
   "dependencies": {
     "es6-enum": "^1.1.0",
+    "humps": "^2.0.1",
+    "ramda": "^0.25.0",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
+    "react-feather": "^1.1.0",
     "react-redux": "^5.0.7",
     "redux": "^4.0.0",
     "redux-logger": "^3.0.6",

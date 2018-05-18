@@ -21,4 +21,5 @@ reference
 build
 dist
 .cache
+src/**/*.css
 

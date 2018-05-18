@@ -1,3 +1,4 @@
+import {reject} from 'ramda'
 import uuid from 'uuid/v1'
 
 import {actionTypes} from './actions'
@@ -35,12 +36,20 @@ export const timers = (state = {}, action) => {
           durationRemaining: timer.duration
         }
       }
-    case (actionTypes.NAME_TIMER):
+    case (actionTypes.EDIT_TIMER_PROPERTY):
       return {
         ...state,
         [timer.id]: {
           ...state[timer.id],
-          name: action.name
+          [action.property]: action.value
+        }
+      }
+    case (actionTypes.TOGGLE_TIMER_PROPERTY):
+      return {
+        ...state,
+        [timer.id]: {
+          ...state[timer.id],
+          [action.property]: !state[timer.id][action.property]
         }
       }
     case (actionTypes.DUPLICATE_TIMER):
@@ -49,23 +58,21 @@ export const timers = (state = {}, action) => {
         ...state,
         [id]: {
           ...state[timer.id],
+          name: `Copy of ${timer.name}`,
+          durationRemaining: timer.duration,
+          favourite: false,
+          running: false,
           id
         }
       }
+    case (actionTypes.DELETE_TIMER):
+      return reject(timer => timer.id === action.timer.id, {...state})
     case (actionTypes.DECREMENT_TIMER_DURATION_REMAINING):
       return {
         ...state,
         [timer.id]: {
           ...state[timer.id],
           durationRemaining: state[timer.id].durationRemaining - 1000
-        }
-      }
-    case (actionTypes.INCREMENT_TIMER_DURATION_REMAINING):
-      return {
-        ...state,
-        [timer.id]: {
-          ...state[timer.id],
-          durationRemaining: state[timer.id].durationRemaining + 10 * 1000
         }
       }
     default:

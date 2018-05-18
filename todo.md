@@ -1,6 +1,9 @@
 TODO
 ---
-- pause/resume functionality
-- timer increment
+- slider functionality
+- control animations
+- scaling
+- mobile vibration
+- service worker
 - linting
 - testing

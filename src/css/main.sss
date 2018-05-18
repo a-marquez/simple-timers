@@ -1,0 +1,243 @@
+$white: rgba(255, 255, 255, .9)
+$black: #000
+$primary: #9E1B3A
+$secondary: #4f0d1d
+$tertiary-1: #564bff
+$tertiary-2: #b5dce9
+$tertiary-3: #41a5c5
+
+$border: #DDD
+$box-shadow: 10px 10px 10px color-mod($primary alpha(.4))
+$box-shadow-2: 5px 5px 10px color-mod($black alpha(.7))
+
+// elements
+
+html
+body
+  margin: 0px
+  padding: 0px
+  height: 100%
+  width: 100%
+
+body
+  font-family: 'Arimo', sans-serif
+  font-weight: regular
+  color: $primary
+  background-color: color-mod($tertiary-1 lightness(96%))
+  display: grid
+
+  & > div
+    justify-self: center
+    align-self: center
+
+button
+  border: 0
+  background-color: transparent
+
+// utilities
+.padding
+  padding: 1rem
+
+.padding--small
+  padding: .5rem
+
+.grid
+  display: grid
+
+// timer
+
+.timer
+  width: 500px
+  display: grid
+  margin: 3em
+
+  &--expanded
+    width: 30rem
+    display: grid
+
+  &__body
+    color: $white
+    background-color: $primary
+    box-shadow: $box-shadow
+    text-shadow: 2px 2px 2px $secondary
+
+    & svg
+      stroke: $white
+
+    &__body
+      @extend .padding
+      display: grid
+      grid-template-columns: 1fr auto
+
+  &__control
+    align-self: center
+    justify-self: center
+    width: 400px
+
+    &__x
+      stroke: $primary !important
+
+  &__header
+    padding: .5rem 1rem
+
+  &__duration
+    margin: 0
+    width: 100%
+
+  &__counter
+    font-size: 3em
+    text-align: center
+    display: grid
+    grid-template-columns: repeat(6, 1fr)
+
+    &__digit
+      font-family: Yantramanav, sans-serif
+      justify-self: end
+
+    &__label
+      padding-left: .5rem
+      font-size: 1.25rem
+      justify-self: start
+      align-self: center
+      vertical-align: middle
+
+  &__toggle
+    height: 2.75rem
+    width: 2.75rem
+    background-color: $tertiary-1
+    margin-top: auto
+    margin-bottom: auto
+    box-shadow: $box-shadow-2
+    justify-self: center
+    position: relative
+    bottom: 4px
+    overflow: hidden
+
+    & svg
+      stroke: $tertiary-2
+      height: 2.0rem
+      width: 2.0rem
+      position: absolute
+      top: 50%
+      left: 50%
+      transform: translateX(-45%) translateY(-50%)
+      transform: translateX(-50%) translateY(-50%)
+
+  &__control
+    background-color: $tertiary-2
+    display: grid
+    grid-template-columns: 1fr 1fr 1fr
+    box-shadow: $box-shadow
+
+    & span
+      text-align: center
+
+    & button
+      @extend .padding--small
+
+    & svg
+      stroke: $tertiary-3
+
+// https://css-tricks.com/styling-cross-browser-compatible-range-inputs-css/
+$track-color: color-mod($secondary lightness(25%))
+$thumb-color: $tertiary-1
+
+$thumb-radius: 0px
+$thumb-height: 1rem
+$thumb-width: 1.5rem
+$thumb-shadow-size: 0px
+$thumb-shadow-blur: 0px
+$thumb-shadow-color: #111
+$thumb-border-width: 0px
+$thumb-border-color: $white
+
+$track-width: 100%
+$track-height: 1rem
+$track-shadow-size: 0px
+$track-shadow-blur: 0px
+$track-shadow-color: #222
+$track-border-width: 0px
+$track-border-color: $black
+
+$track-radius: 0px
+$contrast: 0%
+
+@mixin shadow($shadow-size,$shadow-blur,$shadow-color)
+  box-shadow: $shadow-size $shadow-size $shadow-blur $shadow-color, 0px 0px $shadow-size lighten($shadow-color,5%)
+
+@mixin track()
+  width: $track-width
+  height: $track-height
+  cursor: pointer
+  animate: 0.2s
+
+@mixin thumb()
+  @include shadow($thumb-shadow-size, $thumb-shadow-blur, $thumb-shadow-color)
+  border: $thumb-border-width solid $thumb-border-color
+  height: $thumb-height
+  width: $thumb-width
+  border-radius: $thumb-radius
+  background: $thumb-color
+  cursor: pointer
+
+input[type=range]
+  -webkit-appearance: none
+  margin: $thumb-height/2 0
+  width: $track-width
+
+  &:focus
+    outline: none
+
+  &::-webkit-slider-runnable-track
+    @include track()
+    @include shadow($track-shadow-size, $track-shadow-blur, $track-shadow-color)
+    background: $track-color
+    border-radius: $track-radius
+    border: $track-border-width solid $track-border-color
+
+  &::-webkit-slider-thumb
+    @include thumb()
+    -webkit-appearance: none
+    margin-top: ((- $track-border-width * 2 + $track-height) / 2) - ($thumb-height / 2)
+
+  &:focus::-webkit-slider-runnable-track
+    background: color-mod($track-color whiteness($contrast))
+
+  &::-moz-range-track
+    @include track()
+    @include shadow($track-shadow-size, $track-shadow-blur, $track-shadow-color)
+    background: $track-color
+    border-radius: $track-radius
+    border: $track-border-width solid $track-border-color
+
+  &::-moz-range-thumb
+    @include thumb()
+
+  &::-ms-track
+    @include track()
+    background: transparent
+    border-color: transparent
+    border-width: $thumb-width 0
+    color: transparent
+
+  &::-ms-fill-lower
+    background: color-mod($track-color blackness($contrast))
+    border: $track-border-width solid $track-border-color
+    border-radius: $track-radius*2
+    @include shadow($track-shadow-size, $track-shadow-blur, $track-shadow-color)
+
+  &::-ms-fill-upper
+    background: $track-color
+    border: $track-border-width solid $track-border-color
+    border-radius: $track-radius*2
+    @include shadow($track-shadow-size,$track-shadow-blur,$track-shadow-color)
+
+  &::-ms-thumb
+    @include thumb()
+
+  &:focus::-ms-fill-lower
+    background: $track-color
+
+  &:focus::-ms-fill-upper
+    background: color-mod($track-color whiteness($contrast))
+
