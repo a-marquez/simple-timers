@@ -11,7 +11,7 @@
     "postinstall": "cd ./node_modules/redux-logic; npm install; npm run build;",
     "start": "concurrently 'parcel src/index.html' 'postcss src/css/main.sss -o src/css/main.css -w'",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "gh-pages": "parcel build src/index.html --out-dir ./"
+    "gh-pages": "parcel build src/index.html --public-url ./simple-timers/ --out-dir ./"
   },
   "postcss": {
     "parser": "sugarss",
